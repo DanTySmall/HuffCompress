@@ -17,5 +17,22 @@ int main(int argc, char const *argv[]) {
 
   printf("File Contents: \n");
 
+
+  // Print Contents of File and Create Freq Array
+  int aend = 1 >> 8; // Size of ascii
+  int* freq = calloc(1>>8, sizeof(int));
+  char c = getc(fp);
+  while(c != EOF){
+    // Prints Character
+    printf("%c", c);
+
+    // Adds to freq array
+    freq[(int)c]++;
+
+    c = getc(fp);
+  }
+
+  printf("\n\n");
+
   return 0;
 }
