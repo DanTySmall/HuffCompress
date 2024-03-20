@@ -2,6 +2,16 @@
 #include <stdlib.h>
 
 
+typedef struct node{
+
+  int freq;
+  node* left;
+  node* right;
+
+}
+
+
+
 int main(int argc, char const *argv[]) {
   /* code */
   // Read From a File
