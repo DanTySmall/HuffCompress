@@ -1,3 +1,6 @@
+// Daniel T. Small
+// hcompress.c
+// Compresses a text file into a binary file
 #include <stdio.h>
 #include <stdlib.h>
 
