@@ -4,9 +4,14 @@
 
 typedef struct node{
 
+  char character;
   int freq;
   node* left;
   node* right;
+  struct node* left;
+  struct node* right;
+
+}Node;
 
 }
 
