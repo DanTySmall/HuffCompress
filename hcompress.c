@@ -1,11 +1,12 @@
 // Daniel T. Small
 // hcompress.c
 // Compresses a text file into a binary file
+
 #include <stdio.h>
 #include <stdlib.h>
 
-
 // TODO: Make Functions that free structures
+// TODO: What do you do when percolating a null value
 
 typedef struct node{
 
@@ -39,6 +40,28 @@ typedef struct heap{
 
 }Heap;
 
+
+void freeNode(Node* n){
+
+  // Free Children
+  if (n -> left) freeNode(n -> left);
+  if (n -> right) freeNode(n -> right);
+
+  // Free Node
+  free(n);
+
+}
+
+
+// Prints The Heap Contents
+void printHeap(Heap* h){
+
+  // Loop Through The Heap Array
+  for(int pos = 0; pos < h -> alr -> size; pos++)
+    printf("%c : %d \n", h -> alr -> array[pos] -> character, h -> alr -> array[pos] -> freq);
+
+}
+
 // ArrayList of Nodes
 ArrayList* createAL(){
 
@@ -71,11 +94,22 @@ void append(ArrayList* al, char character, int freq){
   // Add Node to array
   al -> array[al -> size].character = character;
   al -> array[al -> size].freq = freq;
-  al -> array[al -> size].left = NULL;
+  al -> array[al -> size].left= NULL;
   al -> array[al -> size].right = NULL;
   al -> size++;
+}
+
+
+// Prints the contents of a Frequency Array witout Zero Frequencies
+void printArray(int* freqs){
+
+  int aend = 1 << 8;
+  for (int pos = 0; pos < aend; pos++)
+    if(freqs[pos] != 0)
+      printf("%c : %d \n", (char)pos, freqs[pos]);
 
 }
+
 
 // Creates ArrayList of Nodes Refrence
 ArrayListRef* createALR(){
@@ -176,6 +210,63 @@ Heap* heapify (ArrayList* al){
 
 }
 
+// Returns the Character with the Lowest Frequency
+Node* pop(Heap* h){
+
+  Node* top = h -> alr -> array[0];
+
+  // Move a the lower nodes up
+  int curIndex = 0;
+
+  // While still in heap
+  while(curIndex < h->alr->size){
+
+    // Place lower child in current index
+    int left = (curIndex * 2) + 1;
+    int right = left + 1;
+
+    /* Percolate Down */
+    if(h -> alr -> array[left] -> freq <= h -> alr -> array[right] -> freq ){ // Left is less
+
+      h -> alr -> array[curIndex] = h -> alr -> array[left];
+      h -> alr -> array[left] = NULL;
+      curIndex = left;
+
+    } else { // Right is less
+
+      h -> alr -> array[curIndex] = h -> alr -> array[right];
+      h -> alr -> array[right] = NULL;
+      curIndex = right;
+
+    }
+
+
+  }
+
+  // Reduce the size by 1
+  h -> alr -> size = 1;
+
+  return top;
+}
+
+// Pops all of the characters in the Heap
+
+void popAll(Heap* h){
+
+  // While The Heap is Not Empty Pop The Next Node
+  while(h -> alr -> size > 0){
+    Node* current = pop(h);
+
+    // Print Characters
+    printf("%c : %d", current -> character, current -> freq);
+
+    // Free The Node
+    freeNode(current);
+
+  }
+
+}
+
 
 
 int main(int argc, char const *argv[]) {
@@ -197,10 +288,10 @@ int main(int argc, char const *argv[]) {
   int* freq = calloc(aend, sizeof(int));
   char c = getc(fp);
 
-  printf("File Contents: \n");
+  /* printf("File Contents: \n"); */
   while(c != EOF){
     // Prints Character
-    printf("%c", c);
+    /* printf("%c", c); */
 
     // Adds to freq array
     freq[(int)c]++;
@@ -211,14 +302,7 @@ int main(int argc, char const *argv[]) {
   printf("\n\n");
 
 
-  // // Print the frequencies
-  // for(int i = 0; i < aend; i++ ){
-  //   printf("%c : %d\n", (char) i, freq[i] );
-  // }
-
-
-
-  // Add Frequencies to the ArrayList
+  // Add to Frequencies the ArrayList
   ArrayList* arrayL = createAL();
   for(int i = 0; i < aend; i++ ){
 
@@ -228,40 +312,24 @@ int main(int argc, char const *argv[]) {
 
   }
 
-  // // Print The Contents of the ArrayList
-  // printf("File Contents:\n");
-  // for (int position = 0; position < arrayL -> size; position++){
-  //
-  //   printf("%c : %d\n", arrayL-> array[position].character, arrayL-> array[position].freq);
-  //
-  //
-  // }
-  //
-  // printf("\n");
-
    Heap* heap = heapify(arrayL);
+   printHeap(heap);
 
 
-   // // Print Contents of the Heap
-   // printf("Heap Contents: \n");
-   // for(int i = 0; i < heap -> alr -> size; i++ ){
-   //
-   //  printf("%c : %d\n", heap -> alr -> array[i] ->character, heap -> alr -> array[i] ->freq);
-   //
-   //
-   // }
+   // At This point you have a heap with all the characters in the text
 
 
-  // Reopen file for parsing
-  fclose(fp);
-    if (argc < 2){
-      fp = fopen("text.txt", "r");
-    }else{
-      fp = fopen(argv[0], "r");
-    }
+  /* // Reopen file for parsing */
+  /* fclose(fp); */
+  /*   if (argc < 2){ */
+  /*     fp = fopen("text.txt", "r"); */
+  /*   }else{ */
+  /*     fp = fopen(argv[0], "r"); */
+  /*   } */
 
 
-  fclose(fp);
+  /* fclose(fp); */
 
+  printf("Howdy!\n");
   return 0;
 }
