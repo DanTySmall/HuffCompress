@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// TODO: Last Night's Notes: Too Tired to Think. In the morning finish the the percDown Function and finish the heap
 // TODO: Make Functions that free structures
 // TODO: What do you do when percolating a null value
 
@@ -210,47 +211,70 @@ Heap* heapify (ArrayList* al){
 
 }
 
+
+void percDown(Heap* h, int index){
+
+  // If out of heap, return
+  if (index >= h -> alr -> size) return;
+
+  // Children
+  int left = (index * 2) + 1;
+  int right = left + 1;
+
+  int target = 0;
+  if (left < h -> alr -> size && right < h -> alr -> size) { // If Both left and right are in heap
+
+    // Check Which one one is whick one is less
+    // If left is less than right and left is less index
+    if (h -> alr -> array[left] -> freq <= h -> alr -> array[right] -> freq && h -> alr -> array[left] -> freq < h -> alr -> array[index] -> freq ) { // Left is the Target
+      target = left;
+    } else if (h -> alr -> array[right] -> freq < h -> alr -> array[index] -> freq ){ // Right is the Target
+      target = right;
+    } else return;
+
+    // Swap Index with Target
+    Node* temp = h -> alr -> array[index];
+    h -> alr -> array[index] = h -> alr -> array[target];
+    h -> alr -> array[target] = temp;
+
+    // Recursive Call
+    percDown(h, target);
+
+  } else if (left < h -> alr -> size){ // Only has left node
+
+    // Check if left is less than target
+    if (h -> alr -> array[left] < h -> alr -> array[index]  ){
+
+      // Swap The Index and Left Child
+      Node* temp = h -> alr -> array[index];
+      h -> alr -> array[index] = h -> alr -> array[left];
+      h -> alr -> array[left] = temp;
+
+    }
+  }
+
+
+}
+
 // Returns the Character with the Lowest Frequency
 Node* pop(Heap* h){
 
   Node* top = h -> alr -> array[0];
 
-  // Move a the lower nodes up
-  int curIndex = 0;
-
-  // While still in heap
-  while(curIndex < h->alr->size){
-
-    // Place lower child in current index
-    int left = (curIndex * 2) + 1;
-    int right = left + 1;
-
-    /* Percolate Down */
-    if(h -> alr -> array[left] -> freq <= h -> alr -> array[right] -> freq ){ // Left is less
-
-      h -> alr -> array[curIndex] = h -> alr -> array[left];
-      h -> alr -> array[left] = NULL;
-      curIndex = left;
-
-    } else { // Right is less
-
-      h -> alr -> array[curIndex] = h -> alr -> array[right];
-      h -> alr -> array[right] = NULL;
-      curIndex = right;
-
-    }
-
-
-  }
+  // Put last node as first
+  h -> alr -> array[0] = h -> alr -> array[h -> alr -> size - 1];
 
   // Reduce the size by 1
-  h -> alr -> size = 1;
+  h -> alr -> size--;
+
+  // Put top node in the right place
+  percDown(h, 0);
 
   return top;
 }
 
+// !!! IMPORTANT !!! : At the time of making this, All Node do not have childree (For Huffman Tree)
 // Pops all of the characters in the Heap
-
 void popAll(Heap* h){
 
   // While The Heap is Not Empty Pop The Next Node
@@ -258,11 +282,11 @@ void popAll(Heap* h){
     Node* current = pop(h);
 
     // Print Characters
-    printf("%c : %d", current -> character, current -> freq);
+    printf("%c : %d \n", current -> character, current -> freq);
 
-    // Free The Node
-    freeNode(current);
 
+    // Set Position to 0
+    current = NULL;
   }
 
 }
@@ -314,12 +338,16 @@ int main(int argc, char const *argv[]) {
 
    Heap* heap = heapify(arrayL);
    printHeap(heap);
-
+   /* Node* top = pop(heap); */
+   /* printf("The Character that was popped was: %c", top-> character); */
+   printf("\n\n After: \n\n");
+   /* printHeap(heap); */
+   popAll(heap);
 
    // At This point you have a heap with all the characters in the text
 
 
-  /* // Reopen file for parsing */
+  /* // Reopen file fsing */
   /* fclose(fp); */
   /*   if (argc < 2){ */
   /*     fp = fopen("text.txt", "r"); */
@@ -330,6 +358,5 @@ int main(int argc, char const *argv[]) {
 
   /* fclose(fp); */
 
-  printf("Howdy!\n");
   return 0;
 }
