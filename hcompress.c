@@ -509,20 +509,13 @@ int main(int argc, char const *argv[]) {
    }
 
    // Print Huffman Codes to File
-   for(int i = 0; i < aend; i++){
-
-     if (codes[i]){
-       fprintf(output, "%c:%s", (char)i, codes[i]);
-
-     }
-
-
-   }
+   for(int i = 0; i < aend; i++) if (codes[i]) fprintf(output, "%c:%s", (char)i, codes[i]);
 
    // Separate Codes and Text with \n
    fprintf(output, "\n");
 
    // Go Through Text and compress
+   c = getc(fp);
    while(c != EOF){
 
      // Looks up Character and Prints Code to File
