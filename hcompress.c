@@ -323,6 +323,21 @@ Node* createHuffTree(Heap* h){
 
 }
 
+// Traverses The Huffman Tree
+void printHuffTree(Node* t){
+
+  // If Null Return
+  if (!t) return;
+
+  // Print This Node
+  printf("%c : %d", t -> character, t -> freq);
+
+  // Print Child Nodes
+  printHuffTree(t -> left);
+  printHuffTree(t -> right);
+
+}
+
 
 int main(int argc, char const *argv[]) {
 
@@ -353,7 +368,7 @@ int main(int argc, char const *argv[]) {
     total++;
     c = getc(fp);
   }
-  printf("Total # of characters captured: %d", total);
+  /* printf("Total # of characters captured: %d", total); */
 
   printf("\n\n");
 
@@ -380,9 +395,11 @@ int main(int argc, char const *argv[]) {
 
    /* printf("Heap Size: %d", heap -> alr -> size); */
    /* printf("Root of the Tree is %c with a frequency of %d", tree -> character, tree -> freq); */
-   printf("The Left of the Root is %c with a frequency of %d\n", tree -> left -> character, tree -> left -> freq);
-   printf("The Right of the Root is %c with a frequency of %d\n", tree -> right -> character, tree -> right -> freq);
+   /* printf("The Left of the Root is %c with a frequency of %d\n", tree -> left -> character, tree -> left -> freq); */
+   /* printf("The Right of the Root is %c with a frequency of %d\n", tree -> right -> character, tree -> right -> freq); */
 
+   // Print The Huffman Tree
+   printHuffTree(tree);
 
   /* // Reopen file fsing */
   /* fclose(fp); */
