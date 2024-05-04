@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// TODO: Last Night's Notes: Too Tired to Think. In the morning finish the the percDown Function and finish the heap
+// Overall Works, Needs to be Fortified
 // TODO: Make Functions that free structures
 // TODO: What do you do when percolating a null value
 // TODO: Allow for custom file output name
