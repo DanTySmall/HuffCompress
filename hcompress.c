@@ -512,7 +512,7 @@ int main(int argc, char const *argv[]) {
    for(int i = 0; i < aend; i++) if (codes[i]) fprintf(output, "%c:%s", (char)i, codes[i]);
 
    // Separate Codes and Text with \n
-   fprintf(output, "\n");
+   fprintf(output, "XX\n ");
 
    // Go Through Text and compress
    c = getc(fp);
