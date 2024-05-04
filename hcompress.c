@@ -53,7 +53,6 @@ void freeNode(Node* n){
 
 }
 
-
 // Prints The Heap Contents
 void printHeap(Heap* h){
 
@@ -100,7 +99,6 @@ void append(ArrayList* al, char character, int freq){
   al -> size++;
 }
 
-
 // Prints the contents of a Frequency Array witout Zero Frequencies
 void printArray(int* freqs){
 
@@ -110,7 +108,6 @@ void printArray(int* freqs){
       printf("%c : %d \n", (char)pos, freqs[pos]);
 
 }
-
 
 // Creates ArrayList of Nodes Refrence
 ArrayListRef* createALR(){
@@ -211,7 +208,6 @@ Heap* heapify (ArrayList* al){
 
 }
 
-
 void percDown(Heap* h, int index){
 
   // If out of heap, return
@@ -292,6 +288,41 @@ void popAll(Heap* h){
 }
 
 
+// Creates a Huffman Tree Based on contents of a heap
+Node* createHuffTree(Heap* h){
+
+  // If heap is empty or doesnt exist return NULL
+  if (!h || h -> alr -> size == 0) return NULL;
+
+  // While the contents of the heap is greater in one
+  while (h -> alr -> size > 1){
+
+    // Get Two nodes with the lowest frequecies
+    Node* left = pop(h);
+    Node* right = pop(h);
+
+    // Create Intermediate Node
+    Node* IN = (Node*) calloc (1, sizeof(Node));
+    // IN -> char is already 0
+    IN -> freq = left -> freq + right -> freq;
+
+    // Connect nodes to an intermediate node
+    IN -> left = left;
+    IN -> right = right;
+
+    // Put Intermediate node intermediate node in heap with children attached
+    insert(h,IN);
+
+  }
+
+  // At this point there should only be one node that is the roor of the Huffman Tree
+
+  // Return Root of Tree
+  return h -> alr -> array[0];
+
+
+}
+
 
 int main(int argc, char const *argv[]) {
 
@@ -306,8 +337,8 @@ int main(int argc, char const *argv[]) {
       fp = fopen(argv[0], "r");
     }
 
-
   // Print Contents of File and Create Freq Array
+  int total = 0;
   int aend = 1 << 8; // Size of ascii
   int* freq = calloc(aend, sizeof(int));
   char c = getc(fp);
@@ -319,9 +350,10 @@ int main(int argc, char const *argv[]) {
 
     // Adds to freq array
     freq[(int)c]++;
-
+    total++;
     c = getc(fp);
   }
+  printf("Total # of characters captured: %d", total);
 
   printf("\n\n");
 
@@ -337,14 +369,19 @@ int main(int argc, char const *argv[]) {
   }
 
    Heap* heap = heapify(arrayL);
-   printHeap(heap);
-   /* Node* top = pop(heap); */
-   /* printf("The Character that was popped was: %c", top-> character); */
-   printf("\n\n After: \n\n");
    /* printHeap(heap); */
-   popAll(heap);
+   /* printf("\n\n After: \n\n"); */
+   /* popAll(heap); */
 
    // At This point you have a heap with all the characters in the text
+
+   // Create The Huffman Tree
+   Node* tree = createHuffTree(heap);
+
+   /* printf("Heap Size: %d", heap -> alr -> size); */
+   /* printf("Root of the Tree is %c with a frequency of %d", tree -> character, tree -> freq); */
+   printf("The Left of the Root is %c with a frequency of %d\n", tree -> left -> character, tree -> left -> freq);
+   printf("The Right of the Root is %c with a frequency of %d\n", tree -> right -> character, tree -> right -> freq);
 
 
   /* // Reopen file fsing */
