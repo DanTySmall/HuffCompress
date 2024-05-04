@@ -8,6 +8,7 @@
 // TODO: Last Night's Notes: Too Tired to Think. In the morning finish the the percDown Function and finish the heap
 // TODO: Make Functions that free structures
 // TODO: What do you do when percolating a null value
+// TODO: Allow for custom file output name
 
 typedef struct node{
 
@@ -455,10 +456,10 @@ int main(int argc, char const *argv[]) {
     total++;
     c = getc(fp);
   }
+  fclose(fp);
   /* printf("Total # of characters captured: %d", total); */
 
   printf("\n\n");
-
 
   // Add to Frequencies the ArrayList
   ArrayList* arrayL = createAL();
@@ -485,23 +486,58 @@ int main(int argc, char const *argv[]) {
    // 2D Array
 
    // Matrix for Codes
-   char** codes = (char**) malloc(aend * sizeof(char*));
+   char** codes = (char**) calloc(aend, sizeof(char*));
    char path [count];
    getHuffCodes(tree, codes, path, 0);
 
+   // Compressing The Text
+
+
+   // Reopen Text File for Compression
+   if (argc < 2){
+     fp = fopen("text.txt", "r");
+   }else{
+     fp = fopen(argv[0], "r");
+   }
+
+   // Open New File for Writing
+   FILE* output;
+   if (argc < 3){
+     output = fopen("compressed.txt", "w");
+   } else {
+     output = fopen(argv[1], "w");
+   }
+
+   // Print Huffman Codes to File
+   for(int i = 0; i < aend; i++){
+
+     if (codes[i]){
+       fprintf(output, "%c:%s", (char)i, codes[i]);
+
+     }
+
+
+   }
+
+   // Separate Codes and Text with \n
+   fprintf(output, "\n");
+
+   // Go Through Text and compress
+   while(c != EOF){
+
+     // Looks up Character and Prints Code to File
+     char* code = codes[(int) c];
+     fprintf(output,"%s", code);
+
+     // Adds to freq array
+     c = getc(fp);
+   }
 
 
 
-  /* // Reopen file fsing */
-  /* fclose(fp); */
-  /*   if (argc < 2){ */
-  /*     fp = fopen("text.txt", "r"); */
-  /*   }else{ */
-  /*     fp = fopen(argv[0], "r"); */
-  /*   } */
 
-
-  /* fclose(fp); */
+  fclose(output);
+  fclose(fp);
 
   return 0;
 }
