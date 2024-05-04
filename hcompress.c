@@ -269,7 +269,6 @@ Node* pop(Heap* h){
   return top;
 }
 
-// !!! IMPORTANT !!! : At the time of making this, All Node do not have childree (For Huffman Tree)
 // Pops all of the characters in the Heap
 void popAll(Heap* h){
 
@@ -286,7 +285,6 @@ void popAll(Heap* h){
   }
 
 }
-
 
 // Creates a Huffman Tree Based on contents of a heap
 Node* createHuffTree(Heap* h){
@@ -330,7 +328,7 @@ void printHuffTree(Node* t){
   if (!t) return;
 
   // Print This Node
-  printf("%c : %d", t -> character, t -> freq);
+  printf("%c : %d\n", t -> character, t -> freq);
 
   // Print Child Nodes
   printHuffTree(t -> left);
@@ -338,6 +336,97 @@ void printHuffTree(Node* t){
 
 }
 
+
+// Find the Total number of character nodes
+int charNodes(Node* t){
+
+  // If Node does not exist return o
+  if (!t) return 0;
+
+  // Check if this node is a character node
+  int total = 0;
+  if (t -> character != 0 ) total = 1;
+
+  // Find # of child nodes
+  total = charNodes(t -> left) + charNodes(t -> right);
+
+  // Return # of character nodes
+  return total;
+
+}
+
+// Prints The Abbreviation of all used characters
+/* void printAbbrs(Node* t, char* path, int position){ */
+
+/*   // If no node, return */
+/*   if (!t) return; */
+
+/*   // If no path, create an array with size of unique characters */
+/*   if (!path) path = (char* ) malloc(charNodes(t) * sizeof(char)); */
+
+/*   // If this is a character node, print its abbreviation */
+/*   if (t -> character != 0) { */
+
+/*     // Print character and Abbreviation */
+/*     printf("%c:", t -> character); */
+/*     for (int i = 0; i < position ; i++){ */
+
+/*       if ((int)path[i] % 2){ */
+/*         printf("1"); */
+/*       }else{ */
+/*         printf("0"); */
+/*       } */
+
+/*     } */
+
+/*     printf("XX"); */
+
+/*   } */
+
+/*   // Print Childrens' Abbreviations */
+/*   path[position] = (char) 0; */
+/*   printAbbrs(t -> left, path, position + 1); */
+/*   path[position] = (char) 1; */
+/*   printAbbrs(t -> right, path, position + 1); */
+
+
+
+/* }  */
+
+// OPTIMIZE: you can calloc the memory and you string methods
+// Generates a matrix with all Huffman codes
+void getHuffCodes(Node* t, char** codes, char* path, int position){
+
+  // If no tree or code matrix, return
+  if (!t || !codes) return;
+
+  // Check if this is a char node. if so, add it to the matrix
+  if (t -> character){
+
+    codes[(int)t -> character] = (char* ) malloc(1 + position * sizeof(char));
+
+    // First the Letter
+    codes[(int)t -> character][0] = t -> character;
+
+    // Then the Path
+    for (int i = 0; i < position; i++) codes[(int)t -> character][i] = path[i];
+
+    // Null Character
+    codes[(int)t -> character][position] = '\0';
+  }
+
+
+  // Generate Codes for Children
+  // Update Path
+
+  path[position] = '0';
+  getHuffCodes(t -> left, codes, path, position + 1);
+  path[position] = '1';
+  getHuffCodes(t -> right, codes, path, position + 1);
+  path[position] = '\0';
+
+  // The matrix should be filled with all of the huffman codes
+}
 
 int main(int argc, char const *argv[]) {
 
@@ -358,10 +447,8 @@ int main(int argc, char const *argv[]) {
   int* freq = calloc(aend, sizeof(int));
   char c = getc(fp);
 
-  /* printf("File Contents: \n"); */
   while(c != EOF){
     // Prints Character
-    /* printf("%c", c); */
 
     // Adds to freq array
     freq[(int)c]++;
@@ -383,23 +470,27 @@ int main(int argc, char const *argv[]) {
 
   }
 
+   // Make Heap
    Heap* heap = heapify(arrayL);
-   /* printHeap(heap); */
-   /* printf("\n\n After: \n\n"); */
-   /* popAll(heap); */
-
+   int count = heap -> alr -> size;
    // At This point you have a heap with all the characters in the text
 
    // Create The Huffman Tree
    Node* tree = createHuffTree(heap);
 
-   /* printf("Heap Size: %d", heap -> alr -> size); */
-   /* printf("Root of the Tree is %c with a frequency of %d", tree -> character, tree -> freq); */
-   /* printf("The Left of the Root is %c with a frequency of %d\n", tree -> left -> character, tree -> left -> freq); */
-   /* printf("The Right of the Root is %c with a frequency of %d\n", tree -> right -> character, tree -> right -> freq); */
-
    // Print The Huffman Tree
-   printHuffTree(tree);
+   /* printHuffTree(tree); */
+
+   // Create List of Abbreviations
+   // 2D Array
+
+   // Matrix for Codes
+   char** codes = (char**) malloc(aend * sizeof(char*));
+   char path [count];
+   getHuffCodes(tree, codes, path, 0);
+
+
+
 
   /* // Reopen file fsing */
   /* fclose(fp); */
