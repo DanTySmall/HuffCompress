@@ -5,11 +5,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Overall Works, Needs to be Fortified
-// TODO: Make Functions that free structures
-// TODO: What do you do when percolating a null value
-// TODO: Allow for custom file output name
-
 typedef struct node{
 
   char character;
@@ -319,7 +314,6 @@ Node* createHuffTree(Heap* h){
   // Return Root of Tree
   return h -> alr -> array[0];
 
-
 }
 
 // Traverses The Huffman Tree
@@ -408,7 +402,7 @@ int charNodes(Node* t){
 
 /* }  */
 
-// OPTIMIZE: you can calloc the memory and you string methods
+
 // Generates a matrix with all Huffman codes
 void getHuffCodes(Node* t, char** codes, char* path, int position){
 
@@ -476,9 +470,6 @@ int main(int argc, char const *argv[]) {
     c = getc(fp);
   }
   fclose(fp);
-  /* printf("Total # of characters captured: %d", total); */
-
-  /* printf("\n\n"); */
 
   // Add to Frequencies the ArrayList
   ArrayList* arrayL = createAL();
@@ -497,10 +488,6 @@ int main(int argc, char const *argv[]) {
 
    // Create The Huffman Tree
    Node* tree = createHuffTree(heap);
-   /* printInOrder(tree); */
-
-   // Print The Huffman Tree
-   /* printHuffTree(tree); */
 
    // Create List of Abbreviations
    // 2D Array
@@ -511,7 +498,6 @@ int main(int argc, char const *argv[]) {
    getHuffCodes(tree, codes, path, 0);
 
    // Compressing The Text
-
 
    // Reopen Text File for Compression
    if (argc < 2){
@@ -546,9 +532,6 @@ int main(int argc, char const *argv[]) {
      // Adds to freq array
      c = getc(fp);
    }
-
-
-
 
   fclose(output);
   fclose(fp);

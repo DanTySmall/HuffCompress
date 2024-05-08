@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 // Extracts Text from a compressed File
-// TODO: If you change to binary you will have to change enforcement of standards
 
 typedef struct node{
 
@@ -29,7 +28,6 @@ void printInOrder(Node* t){
 // Recreates the Huffman Tree
 FILE* createTree(FILE* fp, Node* t){
 
-    int numNodes = 0;
   // NULL CHECK
   if (!fp || !t) return NULL;
 
@@ -151,7 +149,6 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-
   // Start parsing data
   Node* root = (Node* ) malloc(sizeof(Node*));
   fp  = createTree(fp, root);
@@ -170,7 +167,6 @@ int main(int argc, char *argv[]) {
   char c = fgetc(fp);
   while(c == ' ' || c == '\n')  c = fgetc(fp);
   Node* current = root;
-  /* printInOrder(root); */
   int count = 0;
   while(c != EOF){
 
@@ -187,7 +183,6 @@ int main(int argc, char *argv[]) {
     }
 
     // Go Left or Right
-
     if (c == '0'){
       current = current -> left;
     }else{
