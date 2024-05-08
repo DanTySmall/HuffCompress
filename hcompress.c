@@ -337,6 +337,20 @@ void printHuffTree(Node* t){
 
 }
 
+void printInOrder(Node* t){
+
+  // NULL CHECK
+  if (!t) return;
+
+  printInOrder(t -> left);
+
+  // Print Node
+  if (t -> character == 0) printf("NULL\n");
+  else printf("%c\n", t -> character);
+
+  printInOrder(t -> right);
+}
+
 
 // Find the Total number of character nodes
 int charNodes(Node* t){
@@ -437,7 +451,7 @@ int main(int argc, char const *argv[]) {
     // If not, use text.txt
   FILE* fp;
     if (argc < 2){
-      fp = fopen("text.txt", "r");
+      fp = fopen("best.txt", "r");
     }else{
       fp = fopen(argv[0], "r");
     }
@@ -452,6 +466,11 @@ int main(int argc, char const *argv[]) {
     // Prints Character
 
     // Adds to freq array
+    if (c == '\0'){
+      c = getc(fp);
+      continue;
+    }
+
     freq[(int)c]++;
     total++;
     c = getc(fp);
@@ -459,7 +478,7 @@ int main(int argc, char const *argv[]) {
   fclose(fp);
   /* printf("Total # of characters captured: %d", total); */
 
-  printf("\n\n");
+  /* printf("\n\n"); */
 
   // Add to Frequencies the ArrayList
   ArrayList* arrayL = createAL();
@@ -478,6 +497,7 @@ int main(int argc, char const *argv[]) {
 
    // Create The Huffman Tree
    Node* tree = createHuffTree(heap);
+   /* printInOrder(tree); */
 
    // Print The Huffman Tree
    /* printHuffTree(tree); */
@@ -495,8 +515,8 @@ int main(int argc, char const *argv[]) {
 
    // Reopen Text File for Compression
    if (argc < 2){
-     fp = fopen("text.txt", "r");
-   }else{
+     fp = fopen("best.txt", "r");
+    }else{
      fp = fopen(argv[0], "r");
    }
 
@@ -509,9 +529,10 @@ int main(int argc, char const *argv[]) {
    }
 
    // Print Huffman Codes to File
-   for(int i = 0; i < aend; i++) if (codes[i]) fprintf(output, "%c:%s", (char)i, codes[i]);
+   // [Character] : [Code][Special Character]
+   for(int i = 0; i < aend; i++) if (codes[i]) fprintf(output, "%c:%s%c", (char)i, codes[i], (char) 127);
 
-   // Separate Codes and Text with \n
+   // Separate Codes and Text with n
    fprintf(output, "XX\n ");
 
    // Go Through Text and compress
