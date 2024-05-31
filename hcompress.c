@@ -447,7 +447,7 @@ int main(int argc, char const *argv[]) {
     if (argc < 2){
       fp = fopen("best.txt", "r");
     }else{
-      fp = fopen(argv[0], "r");
+      fp = fopen(argv[1], "r");
     }
 
   // Print Contents of File and Create Freq Array
@@ -503,7 +503,7 @@ int main(int argc, char const *argv[]) {
    if (argc < 2){
      fp = fopen("best.txt", "r");
     }else{
-     fp = fopen(argv[0], "r");
+     fp = fopen(argv[1], "r");
    }
 
    // Open New File for Writing
@@ -511,12 +511,16 @@ int main(int argc, char const *argv[]) {
    if (argc < 3){
      output = fopen("compressed.txt", "w");
    } else {
-     output = fopen(argv[1], "w");
+     output = fopen(argv[2], "w");
    }
 
    // Print Huffman Codes to File
    // [Character] : [Code][Special Character]
+
+   // DEBUG: Test to see where the file starts
+   /* fprintf(output, "This is the start of the file"); */
    for(int i = 0; i < aend; i++) if (codes[i]) fprintf(output, "%c:%s%c", (char)i, codes[i], (char) 127);
+
 
    // Separate Codes and Text with n
    fprintf(output, "XX\n ");

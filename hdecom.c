@@ -61,8 +61,9 @@ FILE* createTree(FILE* fp, Node* t){
         return fp;
       } else{
 
-        fputc(c,fp);
-        fputc('X', fp);
+        /* fputc(c,fp); */
+        /* fputc('X', fp); */
+        if (c == ':') c = 'X';
       }
     }
 
@@ -130,8 +131,8 @@ FILE* createTree(FILE* fp, Node* t){
   // The Program Should Have Broken out of the function by Now
   printf("Error Contructing Huffman Tree");
   exit(1);
+  }
 
-}
 
 int main(int argc, char *argv[]) {
 
