@@ -1,4 +1,4 @@
-# HuffCompress 
+# HuffCompress 🗜🗜🗜
 
 Blazingly fast text compression for any ascii text file right from your terminal. 
 
