@@ -2,17 +2,37 @@
 #include <fstream>
 using namespace std;
 
-int main(){
+int main(int argc, char *argv[]){
 
   // Read File
   fstream source;
-  source.open("text.txt", ios::in);
-  char message[100];
 
-  source >> message;
+  // Source Handling
+  FILE* fp;
+  if (argc < 2){
+    fp = fopen("text.txt", "r");
+  }else{
+    fp = fopen(argv[1], "r");
+  }
 
-  cout << "Printing File Contents";
-  cout << message;
+  // Print Contents of File
+  cout << "Printing File Contents\n";
+  char c = getc(fp);
+  while(c != EOF){
+
+    // Prints Character
+    cout << c;
+    c = getc(fp);
+
+  }
+  fclose(fp);
+
+
+
+
+
+
+
   // Put Contents of File to a Frequency Array
   // Make a Heap to Hold Frequencies
   // Create Huffman Tree
