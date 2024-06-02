@@ -15,6 +15,16 @@ public:
   }
 };
 
+class Heap{
+  public:
+  std::vector<Character> chars;
+
+  Heap(std::vector<Character> chars){
+    this->chars = chars;
+  }
+
+};
+
 // Converts Frequency Array to Vector
 std::vector<Character> freqArrayToVector(int* freqs, int length){
 
