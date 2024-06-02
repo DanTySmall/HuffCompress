@@ -23,6 +23,10 @@ class Heap{
     this->chars = chars;
   }
 
+  void printHeap(){
+    for(Character c: this->chars) cout << c.glyph << " : " << c.freq << endl;
+
+  }
 };
 
 // Converts Frequency Array to Vector
@@ -40,6 +44,7 @@ std::vector<Character> freqArrayToVector(int* freqs, int length){
     if (freqs[i] != 0){
 
       vec.emplace_back(freqs[i], i);
+
 
     }
 
@@ -105,6 +110,11 @@ int main(int argc, char *argv[]){
     cout << c.glyph << " : " << c.freq << endl;
 
   }
+
+
+  Heap* jeepersheapers = new Heap(chars);
+  cout << "From Heap: " << endl;
+  jeepersheapers->printHeap();
 
   // Make a Heap to Hold Frequencies
   // Create Huffman Tree
