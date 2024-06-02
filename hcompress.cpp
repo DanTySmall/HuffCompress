@@ -1,6 +1,43 @@
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
+
+
+class Character{
+public:
+  char glyph;
+  int freq;
+
+  Character(int freq, char glyph){
+    this->glyph = glyph;
+    this->freq = freq;
+  }
+};
+
+// Converts Frequency Array to Vector
+std::vector<Character> freqArrayToVector(int* freqs, int length){
+
+  int aend = 1 << 8;
+
+  // Return Empty Vector if Array is not the right size
+  vector<Character> vec = {};
+  if(length != aend) return vec;
+
+  // Place Character in Vector if Frequency is not Zero
+  for(int i = 0; i < aend; i++){
+
+    if (freqs[i] != 0){
+
+      vec.emplace_back((char)i,freqs[i]);
+
+    }
+
+  }
+  return vec;
+
+}
+
 
 int main(int argc, char *argv[]){
 
@@ -50,11 +87,11 @@ int main(int argc, char *argv[]){
 
   }
 
+ // Create Vector of Existing Characters
+  cout << "From Vector: " << endl;
+  std::vector<Character> chars = freqArrayToVector(freq, aend);
 
 
-
-
-  // Put Contents of File to a Frequency Array
   // Make a Heap to Hold Frequencies
   // Create Huffman Tree
   // Compress Text
