@@ -345,7 +345,6 @@ void printInOrder(Node* t){
   printInOrder(t -> right);
 }
 
-
 // Find the Total number of character nodes
 int charNodes(Node* t){
 
@@ -363,45 +362,6 @@ int charNodes(Node* t){
   return total;
 
 }
-
-// Prints The Abbreviation of all used characters
-/* void printAbbrs(Node* t, char* path, int position){ */
-
-/*   // If no node, return */
-/*   if (!t) return; */
-
-/*   // If no path, create an array with size of unique characters */
-/*   if (!path) path = (char* ) malloc(charNodes(t) * sizeof(char)); */
-
-/*   // If this is a character node, print its abbreviation */
-/*   if (t -> character != 0) { */
-
-/*     // Print character and Abbreviation */
-/*     printf("%c:", t -> character); */
-/*     for (int i = 0; i < position ; i++){ */
-
-/*       if ((int)path[i] % 2){ */
-/*         printf("1"); */
-/*       }else{ */
-/*         printf("0"); */
-/*       } */
-
-/*     } */
-
-/*     printf("XX"); */
-
-/*   } */
-
-/*   // Print Childrens' Abbreviations */
-/*   path[position] = (char) 0; */
-/*   printAbbrs(t -> left, path, position + 1); */
-/*   path[position] = (char) 1; */
-/*   printAbbrs(t -> right, path, position + 1); */
-
-
-
-/* }  */
-
 
 // Generates a matrix with all Huffman codes
 void getHuffCodes(Node* t, char** codes, char* path, int position){

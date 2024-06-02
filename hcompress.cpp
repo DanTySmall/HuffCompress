@@ -91,26 +91,7 @@ int main(int argc, char *argv[]){
   }
   fclose(fp);
 
-  // Print all characters in array
-  cout << "Character Frequencies\n";
-  for (int i = 0; i < aend; i++){
-
-    if (freq[i] != 0){
-      cout << (char)i << " : " << freq[i] << endl;
-    }
-
-  }
-
- // Create Vector of Existing Characters
-  cout << "From Vector: " << endl;
   std::vector<Character> chars = freqArrayToVector(freq, aend);
-
-  for(Character c: chars){
-
-    cout << c.glyph << " : " << c.freq << endl;
-
-  }
-
 
   Heap* jeepersheapers = new Heap(chars);
   cout << "From Heap: " << endl;
