@@ -29,7 +29,7 @@ std::vector<Character> freqArrayToVector(int* freqs, int length){
 
     if (freqs[i] != 0){
 
-      vec.emplace_back((char)i,freqs[i]);
+      vec.emplace_back(freqs[i], i);
 
     }
 
@@ -37,7 +37,6 @@ std::vector<Character> freqArrayToVector(int* freqs, int length){
   return vec;
 
 }
-
 
 int main(int argc, char *argv[]){
 
@@ -91,6 +90,11 @@ int main(int argc, char *argv[]){
   cout << "From Vector: " << endl;
   std::vector<Character> chars = freqArrayToVector(freq, aend);
 
+  for(Character c: chars){
+
+    cout << c.glyph << " : " << c.freq << endl;
+
+  }
 
   // Make a Heap to Hold Frequencies
   // Create Huffman Tree
