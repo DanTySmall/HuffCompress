@@ -15,6 +15,7 @@ public:
   }
 };
 
+<<<<<<< HEAD
 class Heap{
   public:
   std::vector<Character> chars;
@@ -29,6 +30,8 @@ class Heap{
   }
 };
 
+=======
+>>>>>>> parent of 2fc2ff8 (Heap Class Created)
 // Converts Frequency Array to Vector
 std::vector<Character> freqArrayToVector(int* freqs, int length){
 
