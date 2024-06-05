@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <queue>
 using namespace std;
 
 
@@ -15,46 +16,65 @@ public:
   }
 };
 
-<<<<<<< HEAD
-class Heap{
-  public:
-  std::vector<Character> chars;
 
-  Heap(std::vector<Character> chars){
-    this->chars = chars;
-  }
+// // Converts Frequency Array to Vector
+// std::vector<Character> freqArrayToVector(int* freqs, int length){
 
-  void printHeap(){
-    for(Character c: this->chars) cout << c.glyph << " : " << c.freq << endl;
+//   int aend = 1 << 8;
 
-  }
-};
+//   // Return Empty Vector if Array is not the right size
+//   vector<Character> vec = {};
+//   if(length != aend) return vec;
 
-=======
->>>>>>> parent of 2fc2ff8 (Heap Class Created)
-// Converts Frequency Array to Vector
-std::vector<Character> freqArrayToVector(int* freqs, int length){
+//   // Place Character in Vector if Frequency is not Zero
+//   for(int i = 0; i < aend; i++){
+
+//     if (freqs[i] != 0){
+
+//       vec.emplace_back(freqs[i], i);
+
+
+//     }
+
+//   }
+//   return vec;
+
+
+// }
+
+  struct compareChar{
+    bool operator()(Character& a, Character& b){
+
+      return a.freq > b.freq;
+
+    }
+  };
+
+// Take The Frequency Array and create a Priority Queue
+priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freqs, int length){
 
   int aend = 1 << 8;
 
   // Return Empty Vector if Array is not the right size
-  vector<Character> vec = {};
-  if(length != aend) return vec;
+  std::priority_queue<Character, std::vector<Character>, compareChar> heap;
+  if(length != aend) return heap;
 
-  // Place Character in Vector if Frequency is not Zero
+  // Place Character in Priority Queue if Frequency is not Zero
   for(int i = 0; i < aend; i++){
 
     if (freqs[i] != 0){
 
-      vec.emplace_back(freqs[i], i);
-
+      // Add to the Priorty Queue
+      cout << i << ": " << (char) freqs[i] << " : " << heap.size() << endl;
+      heap.emplace(freqs[i], i);
 
     }
 
   }
-  return vec;
+  return heap;
 
 }
+
 
 int main(int argc, char *argv[]){
 
@@ -94,13 +114,19 @@ int main(int argc, char *argv[]){
   }
   fclose(fp);
 
-  std::vector<Character> chars = freqArrayToVector(freq, aend);
 
-  Heap* jeepersheapers = new Heap(chars);
-  cout << "From Heap: " << endl;
-  jeepersheapers->printHeap();
 
-  // Make a Heap to Hold Frequencies
+  // Use C++'s priority queue class to hold the characters
+
+  // Create a Priority Queue
+  std::priority_queue<Character, std::vector<Character>, compareChar> heap = createPQ(freq, aend);
+
+  cout << heap.size() << endl;
+  while (!heap.empty()) {
+    cout << heap.top().freq << " " << endl;
+    heap.pop();
+  }
+
   // Create Huffman Tree
   // Compress Text
   // Write Text To File

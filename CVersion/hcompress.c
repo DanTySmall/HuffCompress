@@ -120,7 +120,7 @@ ArrayListRef* createALR(){
 // Adds Node to ArrayListRef
 void appendR(ArrayListRef* alr, Node* n){
 
-  if(alr -> size == alr -> capacity){ // If theres no space, expand array
+  if(alr -> size == alr -> capacity){ // If theres no suace, expand array
 
     Node** temp = realloc(alr -> array, 2 * alr->capacity * sizeof(Node*));
     if (temp)
@@ -199,7 +199,9 @@ Heap* heapify (ArrayList* al){
   }
 
   // Return Heap
-  return h;
+
+
+return h;
 
 
 }
@@ -344,6 +346,7 @@ void printInOrder(Node* t){
 
   printInOrder(t -> right);
 }
+
 
 // Find the Total number of character nodes
 int charNodes(Node* t){
