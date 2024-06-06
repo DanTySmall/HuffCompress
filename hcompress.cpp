@@ -9,41 +9,32 @@ class Character{
 public:
   char glyph;
   int freq;
+  Character* left;
+  Character* right;
 
   Character(int freq, char glyph){
     this->glyph = glyph;
     this->freq = freq;
   }
+
 };
 
+class TreeNode{
+public:
+  char glyph;
+  int freq;
+  TreeNode* left;
+  TreeNode* right;
 
-// // Converts Frequency Array to Vector
-// std::vector<Character> freqArrayToVector(int* freqs, int length){
+  TreeNode(char glyph, int freq){
+    this->glyph = glyph;
+    this->freq = freq;
+  }
+};
 
-//   int aend = 1 << 8;
-
-//   // Return Empty Vector if Array is not the right size
-//   vector<Character> vec = {};
-//   if(length != aend) return vec;
-
-//   // Place Character in Vector if Frequency is not Zero
-//   for(int i = 0; i < aend; i++){
-
-//     if (freqs[i] != 0){
-
-//       vec.emplace_back(freqs[i], i);
-
-
-//     }
-
-//   }
-//   return vec;
-
-
-// }
-
-  struct compareChar{
-    bool operator()(Character& a, Character& b){
+// Comparator for Characters
+struct compareChar{
+    bool operator()(Character a, Character b){
 
       return a.freq > b.freq;
 
@@ -57,7 +48,7 @@ priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freq
 
   // Return Empty Vector if Array is not the right size
   std::priority_queue<Character, std::vector<Character>, compareChar> heap;
-  if(length != aend) return heap;
+  if(length != aend || freqs == NULL) return heap;
 
   // Place Character in Priority Queue if Frequency is not Zero
   for(int i = 0; i < aend; i++){
@@ -75,6 +66,45 @@ priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freq
 
 }
 
+// FIXME: Create Huffman Tree with Refrence Heaps
+// FIXME: This might not work
+// Takes a heap of Character Refrences and creates a Huffman Tree
+Character* createHuffTree(priority_queue<Character, std::vector<Character>, compareChar> heap){
+
+  // Trivial Sizes
+  if (heap.size() < 1) return NULL;
+
+  if (heap.size() < 2) {
+    Character c = heap.top();
+    heap.pop();
+    return new Character(c.glyph, c.freq);
+  }
+
+  // While The Heap has more than one Character, Connect the two smallest
+  while(heap.size() > 1){
+
+    // Take The Smallest Nodes
+    Character *left = new Character (heap.top());
+    heap.pop();
+    Character *right = new Character (heap.top());
+    heap.pop();
+
+    // Connect the via Intermediate Node
+    Character IM = Character(left->freq + right->freq, (char)0);
+    IM . left = left;
+    IM . right = right;
+    heap.push(IM);
+
+  }
+
+  if (heap.size() < 1) cout << "There is a problem creating the heap";
+  // Retrieve  The Single Character in heap
+
+  Character* result = new Character (heap.top());
+  heap.pop();
+  return result;
+
+}
 
 int main(int argc, char *argv[]){
 
@@ -85,7 +115,6 @@ int main(int argc, char *argv[]){
   }else{
     fp = fopen(argv[1], "r");
   }
-
 
   // Create Array to Hold Character Frequencies
   int total = 0;
@@ -114,10 +143,7 @@ int main(int argc, char *argv[]){
   }
   fclose(fp);
 
-
-
   // Use C++'s priority queue class to hold the characters
-
   // Create a Priority Queue
   std::priority_queue<Character, std::vector<Character>, compareChar> heap = createPQ(freq, aend);
 
@@ -127,7 +153,6 @@ int main(int argc, char *argv[]){
     heap.pop();
   }
 
-  // Create Huffman Tree
   // Compress Text
   // Write Text To File
   // Close All Files
