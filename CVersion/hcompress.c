@@ -498,7 +498,6 @@ int main(int argc, char const *argv[]) {
      char* code = codes[(int) c];
      fprintf(output,"%s", code);
 
-     // Adds to freq array
      c = getc(fp);
    }
 

@@ -3,7 +3,6 @@
 #include <vector>
 #include <queue>
 using namespace std;
-// TODO: Be more Object Oriented
 // TODO: What if getHuffcodes gets a single character with only one node?
 // TODO: Properly Free Structures
 // TODO: Make a more user friendly interface
@@ -77,7 +76,7 @@ public:
 
 class HuffmanTree {
 public:
-  int aend = 1 << 8;
+  int aend = (1 << 8);
   int count;
   Character* tree;
   char** codes;
@@ -90,8 +89,9 @@ public:
     tree = createHuffTree(heap);
     count = heap.size();
 
-    // This Make Codes with Tree
-    std::fill(codes, codes + (1 << 8), (char*)NULL);
+    // // This Make Codes with Tree
+    codes = new char*[aend];
+    std::fill(codes, codes + aend, (char*)NULL);
     getHuffcodes(tree, codes, path, 0);
 
   }
@@ -114,17 +114,17 @@ public:
       // Take The Smallest Nodes
       Character *left = new Character (heap.top());
       heap.pop();
-    Character *right = new Character (heap.top());
-    heap.pop();
+      Character *right = new Character (heap.top());
+      heap.pop();
 
-    // Connect the via Intermediate Node
-    Character IM = Character(left->freq + right->freq, (char)0);
-    IM . left = left;
-    IM . right = right;
-    heap.push(IM);
+      // Connect the via Intermediate Node
+      Character IM = Character(left->freq + right->freq, (char)0);
+      IM . left = left;
+      IM . right = right;
+      heap.push(IM);
 
     }
-    
+
     if (heap.size() < 1) cout << "There is a problem creating the heap";
     // Retrieve  The Single Character in heap
 
@@ -132,6 +132,7 @@ public:
     heap.pop();
     return result;
 
+    return NULL;
   }
   
   // Creates a Matrix of Huffman for Characters
@@ -173,8 +174,7 @@ public:
   void printHuffcodes(){
 
     cout << "Printing Huffman Codes for Tree:" << endl;
-    int aend = 1 << 8;
-    for (int i = 0; i < aend; i++){
+       for (int i = 0; i < aend; i++){
 
       if (codes[i] ){
         cout << (char) i << " : " << codes[i]<< endl;
@@ -206,8 +206,9 @@ public:
     }
     cout << endl;
 
+    fclose(input);
+    fclose(output);
   }
-
 };
 
 int main(int argc, char *argv[]){
@@ -252,7 +253,8 @@ int main(int argc, char *argv[]){
   Heap PQ = Heap(freq,aend);
 
   // Create Huffman Tree
-  HuffmanTree tree = HuffmanTree(PQ.getHeap());
+  priority_queue<Character, std::vector<Character>, compareChar> heap = PQ.getHeap();
+  HuffmanTree tree = HuffmanTree(heap);
 
   // Print Huffman Codes
   tree.printHuffcodes();
@@ -267,19 +269,19 @@ int main(int argc, char *argv[]){
 
   // Write Text To File
   //   Open New File for Writing
-  FILE* output;
-  if (argc < 3){
-    output = fopen("compressed.txt", "w");
-  } else {
-    output = fopen(argv[2], "w");
-  }
+  // FILE* output;
+  // if (argc < 3){
+  //   output = fopen("compressed.txt", "w");
+  // } else {
+  //   output = fopen(argv[2], "w");
+  // }
 
   // Compresses and Writes Text to File
-  tree.compressText(fp,output);
+  // tree.compressText(fp,output);
 
   // Close All Files
-  fclose(output);
-  fclose(fp);
+  // fclose(output);
+  // fclose(fp);
 
   // Notify User of Completion
   cout << "Compression Complete!" << endl;
