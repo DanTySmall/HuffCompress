@@ -3,8 +3,10 @@
 #include <vector>
 #include <queue>
 using namespace std;
+// TODO: Be more Object Oriented
 //TODO: What if getHuffcodes gets a single character with only one node?
 //TODO: Properly Free Structures
+//TODO: Make a more user friendly interface
 
 class Character{
 public:
@@ -60,7 +62,6 @@ priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freq
 Character* createHuffTree(priority_queue<Character, std::vector<Character>, compareChar> heap){
 
   // Trivial Sizes
-  cout << heap.size() << endl;
   if (heap.size() < 1) return NULL;
 
   if (heap.size() < 2) {
@@ -179,6 +180,7 @@ int main(int argc, char *argv[]){
 
   }
   fclose(fp);
+  cout << endl;
 
   // Use C++'s priority queue class to hold the characters
   // Create a Priority Queue
@@ -186,7 +188,6 @@ int main(int argc, char *argv[]){
 
   // Create Huffman Tree
   Character* Tree = createHuffTree(heap);
-  printf("%p\n", Tree);
 
   // Print Codes From Huffman Tree
   //   Matrices for Huffman Codes
@@ -206,7 +207,6 @@ int main(int argc, char *argv[]){
   }
 
   // Compress Text
-
   //   Reopen File
   if (argc < 2){
     fp = fopen("text.txt", "r");
@@ -214,7 +214,37 @@ int main(int argc, char *argv[]){
     fp = fopen(argv[1], "r");
   }
   // Write Text To File
-  // Close All Files
+  // Open New File for Writing
+
+  FILE* output;
+  if (argc < 3){
+    output = fopen("compressed.txt", "w");
+  } else {
+    output = fopen(argv[2], "w");
+  }
+
+  // Printing the Huffman Codes to File
+  for(int i = 0; i < aend; i++) if (codes[i]) fprintf(output, "%c:%s%c", (char)i, codes[i], (char) 127);
+
+  // Separate Code From Text
+  fprintf(output, "XX\n ");
+
+  // Print Compressed Text to File
+   c = getc(fp);
+   while(c != EOF){
+
+     // Looks up Character and Prints Code to File
+     fprintf(output,"%s", codes[(int)c]);
+
+     c = getc(fp);
+   }
+
+   cout << endl;
+   // Close All Files
+   fclose(output);
+   fclose(fp);
+
+   cout << "Compression Complete!" << endl;
 
   return 0;
 
