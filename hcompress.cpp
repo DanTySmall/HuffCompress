@@ -22,19 +22,6 @@ public:
 
 };
 
-class TreeNode{
-public:
-  char glyph;
-  int freq;
-  TreeNode* left;
-  TreeNode* right;
-
-  TreeNode(char glyph, int freq){
-    this->glyph = glyph;
-    this->freq = freq;
-  }
-};
-
 // Comparator for Characters
 struct compareChar{
     bool operator()(Character a, Character b){
@@ -69,8 +56,6 @@ priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freq
 
 }
 
-// FIXME: Create Huffman Tree with Refrence Heaps
-// FIXME: This might not work
 // Takes a heap of Character Refrences and creates a Huffman Tree
 Character* createHuffTree(priority_queue<Character, std::vector<Character>, compareChar> heap){
 
@@ -110,6 +95,7 @@ Character* createHuffTree(priority_queue<Character, std::vector<Character>, comp
 
 }
 
+// Creates a Matrix of Huffman for Characters
 void getHuffcodes (Character* tree, char** codes, vector<char> path, int position){
 
   // NULL Check
@@ -191,19 +177,12 @@ int main(int argc, char *argv[]){
     total++;
     c = getc(fp);
 
-
   }
   fclose(fp);
 
   // Use C++'s priority queue class to hold the characters
   // Create a Priority Queue
   std::priority_queue<Character, std::vector<Character>, compareChar> heap = createPQ(freq, aend);
-
-  // cout << heap.size() << endl;
-  // while (!heap.empty()) {
-    // cout << heap.top().freq << " " << endl;
-    // heap.pop();
-  // }
 
   // Create Huffman Tree
   Character* Tree = createHuffTree(heap);
@@ -220,20 +199,22 @@ int main(int argc, char *argv[]){
   //   Prints all the Huffman codes
   for (int i = 0; i < aend; i++){
 
-      cout << (char)i << " : " << codes[i][0] << endl;
     if (codes[i] != NULL){
-      cout << (char)i << " : " << codes[i][0] << endl;
+      cout << (char)i << " : " << codes[i] << endl;
     }
 
   }
-  // cout << "End of Porgram" << endl;
+
   // Compress Text
+
+  //   Reopen File
+  if (argc < 2){
+    fp = fopen("text.txt", "r");
+  }else{
+    fp = fopen(argv[1], "r");
+  }
   // Write Text To File
   // Close All Files
-
-
-
-
 
   return 0;
 
