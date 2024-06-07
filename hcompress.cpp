@@ -269,19 +269,15 @@ int main(int argc, char *argv[]){
 
   // Write Text To File
   //   Open New File for Writing
-  // FILE* output;
-  // if (argc < 3){
-  //   output = fopen("compressed.txt", "w");
-  // } else {
-  //   output = fopen(argv[2], "w");
-  // }
+  FILE* output;
+  if (argc < 3){
+    output = fopen("compressed.txt", "w");
+  } else {
+    output = fopen(argv[2], "w");
+  }
 
   // Compresses and Writes Text to File
-  // tree.compressText(fp,output);
-
-  // Close All Files
-  // fclose(output);
-  // fclose(fp);
+  tree.compressText(fp,output);
 
   // Notify User of Completion
   cout << "Compression Complete!" << endl;
