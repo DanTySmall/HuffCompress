@@ -4,9 +4,10 @@
 #include <queue>
 using namespace std;
 // TODO: Be more Object Oriented
-//TODO: What if getHuffcodes gets a single character with only one node?
-//TODO: Properly Free Structures
-//TODO: Make a more user friendly interface
+// TODO: What if getHuffcodes gets a single character with only one node?
+// TODO: Properly Free Structures
+// TODO: Make a more user friendly interface
+// TODO: What About LOOOONG Text
 
 class Character{
 public:
@@ -33,9 +34,19 @@ struct compareChar{
     }
   };
 
-// Take The Frequency Array and create a Priority Queue
-priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freqs, int length){
+class Heap {
+public:
 
+  // Holds the Characters
+  std::priority_queue<Character, std::vector<Character>, compareChar> heap;
+
+  // Constructs Heap Objects
+  Heap(int* freqs, int length){
+    heap = createPQ(freqs, length);
+  }
+
+  // Creates A Priority Queue of Characters
+  priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freqs, int length){
   int aend = 1 << 8;
 
   // Return Empty Vector if Array is not the right size
@@ -54,28 +65,55 @@ priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freq
     }
 
   }
+
   return heap;
 
 }
+  // Returns Heap
+  priority_queue<Character, std::vector<Character>, compareChar> getHeap(){
+    return heap;
+  }
+};
 
-// Takes a heap of Character Refrences and creates a Huffman Tree
-Character* createHuffTree(priority_queue<Character, std::vector<Character>, compareChar> heap){
+class HuffmanTree {
+public:
+  int aend = 1 << 8;
+  int count;
+  Character* tree;
+  char** codes;
+  vector<char> path = {};
 
-  // Trivial Sizes
-  if (heap.size() < 1) return NULL;
+  // Construct The Huffman Tree
+  HuffmanTree(priority_queue<Character, std::vector<Character>, compareChar> heap){
 
-  if (heap.size() < 2) {
-    Character c = heap.top();
-    heap.pop();
-    return new Character(c.glyph, c.freq);
+    // Use heap to create a tree
+    tree = createHuffTree(heap);
+    count = heap.size();
+
+    // This Make Codes with Tree
+    std::fill(codes, codes + (1 << 8), (char*)NULL);
+    getHuffcodes(tree, codes, path, 0);
+
   }
 
-  // While The Heap has more than one Character, Connect the two smallest
-  while(heap.size() > 1){
+  // Takes a heap of Character Refrences and creates a Huffman Tree
+  Character* createHuffTree(priority_queue<Character, std::vector<Character>, compareChar> heap){
 
-    // Take The Smallest Nodes
-    Character *left = new Character (heap.top());
+    // Trivial Sizes
+    if (heap.size() < 1) return NULL;
+
+    if (heap.size() < 2) {
+      Character c = heap.top();
     heap.pop();
+    return new Character(c.glyph, c.freq);
+    }
+
+    // While The Heap has more than one Character, Connect the two smallest
+    while(heap.size() > 1){
+
+      // Take The Smallest Nodes
+      Character *left = new Character (heap.top());
+      heap.pop();
     Character *right = new Character (heap.top());
     heap.pop();
 
@@ -85,65 +123,92 @@ Character* createHuffTree(priority_queue<Character, std::vector<Character>, comp
     IM . right = right;
     heap.push(IM);
 
-  }
+    }
+    
+    if (heap.size() < 1) cout << "There is a problem creating the heap";
+    // Retrieve  The Single Character in heap
 
-  if (heap.size() < 1) cout << "There is a problem creating the heap";
-  // Retrieve  The Single Character in heap
-
-  Character* result = new Character (heap.top());
-  heap.pop();
-  return result;
-
-}
-
-// Creates a Matrix of Huffman for Characters
-void getHuffcodes (Character* tree, char** codes, vector<char> path, int position){
-
-  // NULL Check
-  // cout << "abc123"<< endl;
-  if (tree == NULL) return;
-  // Check if Character Node
-  // cout << tree -> glyph << endl;
-  if(tree -> glyph != (char)0){
-
-    // cout << "At Character " << tree -> glyph;
-    // Create an array For Character path
-    codes[(int)tree -> glyph] = new char[1 + position * sizeof(char)];
-
-    // Write Path for Character
-    for (int i = 0; i < position; i++) codes[(int)tree -> glyph][i] = path.at(i);
-
-    // Null Character
-    codes[(int)tree -> glyph][position] = '\0';
+    Character* result = new Character (heap.top());
+    heap.pop();
+    return result;
 
   }
+  
+  // Creates a Matrix of Huffman for Characters
+  void getHuffcodes (Character* tree, char** codes, vector<char> path, int position){
 
-  // Generate Codes for Children and Update Path
-  path.push_back('0');
-  getHuffcodes(tree -> left, codes, path, position + 1);
-  path.pop_back();
-  path.push_back('1');
-  getHuffcodes(tree -> right, codes, path, position + 1);
-  path.pop_back();
+    // NULL Check
+    // cout << "abc123"<< endl;
+    if (tree == NULL) return;
+    // Check if Character Node
+    // cout << tree -> glyph << endl;
+    if(tree -> glyph != (char)0){
+
+      // cout << "At Character " << tree -> glyph;
+      // Create an array For Character path
+      codes[(int)tree -> glyph] = new char[1 + position * sizeof(char)];
+
+      // Write Path for Character
+      for (int i = 0; i < position; i++) codes[(int)tree -> glyph][i] = path.at(i);
+
+      // Null Character
+      codes[(int)tree -> glyph][position] = '\0';
+
+    }
+
+    // Generate Codes for Children and Update Path
+    path.push_back('0');
+    getHuffcodes(tree -> left, codes, path, position + 1);
+    path.pop_back();
+    path.push_back('1');
+    getHuffcodes(tree -> right, codes, path, position + 1);
+    path.pop_back();
 
 
 
-  // The matrix should be filled with all of the huffman codes
+    // The matrix should be filled with all of the huffman codes
   }
 
-// Prints Characters in Huffman Tree and their frequencies
-void printHuffFreqs(Character * tree){
+  // Prints Huffman codes of all Characters
+  void printHuffcodes(){
 
-  if(tree == NULL) return;
+    cout << "Printing Huffman Codes for Tree:" << endl;
+    int aend = 1 << 8;
+    for (int i = 0; i < aend; i++){
 
-  // Print This Node
-  cout << tree -> glyph << " : " << tree -> freq ;
+      if (codes[i] ){
+        cout << (char) i << " : " << codes[i]<< endl;
+      }
 
-  // Print Child Nodes
-  printHuffFreqs(tree -> left);
-  printHuffFreqs(tree -> right);
+    }
 
-}
+    cout << endl;
+  }
+
+  // Compress Text and Write Text To File
+  void compressText(FILE* input, FILE* output){
+
+    // Print Codes to File
+    for(int i = 0; i < aend; i++) if (codes[i]) fprintf(output, "%c:%s%c", (char)i, codes[i], (char) 127);
+
+    // Separate Code From Text
+    fprintf(output, "XX\n ");
+
+    // Print Compressed Text to File
+    char c = getc(input);
+    while(c != EOF){
+
+      // Looks up Character and Prints Code to File
+      fprintf(output,"%s", codes[(int)c]);
+
+      // Next Char
+      c = getc(input);
+    }
+    cout << endl;
+
+  }
+
+};
 
 int main(int argc, char *argv[]){
 
@@ -184,27 +249,13 @@ int main(int argc, char *argv[]){
 
   // Use C++'s priority queue class to hold the characters
   // Create a Priority Queue
-  std::priority_queue<Character, std::vector<Character>, compareChar> heap = createPQ(freq, aend);
+  Heap PQ = Heap(freq,aend);
 
   // Create Huffman Tree
-  Character* Tree = createHuffTree(heap);
+  HuffmanTree tree = HuffmanTree(PQ.getHeap());
 
-  // Print Codes From Huffman Tree
-  //   Matrices for Huffman Codes
-  char** codes = new char*[aend];
-  vector<char> path = {};
-  std::fill(codes, codes + aend, (char*)NULL);
-
-  getHuffcodes(Tree, codes, path, 0);
-
-  //   Prints all the Huffman codes
-  for (int i = 0; i < aend; i++){
-
-    if (codes[i] != NULL){
-      cout << (char)i << " : " << codes[i] << endl;
-    }
-
-  }
+  // Print Huffman Codes
+  tree.printHuffcodes();
 
   // Compress Text
   //   Reopen File
@@ -213,9 +264,9 @@ int main(int argc, char *argv[]){
   }else{
     fp = fopen(argv[1], "r");
   }
-  // Write Text To File
-  // Open New File for Writing
 
+  // Write Text To File
+  //   Open New File for Writing
   FILE* output;
   if (argc < 3){
     output = fopen("compressed.txt", "w");
@@ -223,29 +274,15 @@ int main(int argc, char *argv[]){
     output = fopen(argv[2], "w");
   }
 
-  // Printing the Huffman Codes to File
-  for(int i = 0; i < aend; i++) if (codes[i]) fprintf(output, "%c:%s%c", (char)i, codes[i], (char) 127);
+  // Compresses and Writes Text to File
+  tree.compressText(fp,output);
 
-  // Separate Code From Text
-  fprintf(output, "XX\n ");
+  // Close All Files
+  fclose(output);
+  fclose(fp);
 
-  // Print Compressed Text to File
-   c = getc(fp);
-   while(c != EOF){
-
-     // Looks up Character and Prints Code to File
-     fprintf(output,"%s", codes[(int)c]);
-
-     c = getc(fp);
-   }
-
-   cout << endl;
-   // Close All Files
-   fclose(output);
-   fclose(fp);
-
-   cout << "Compression Complete!" << endl;
+  // Notify User of Completion
+  cout << "Compression Complete!" << endl;
 
   return 0;
-
 }
