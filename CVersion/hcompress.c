@@ -2,6 +2,8 @@
 // hcompress.c
 // Compresses a text file into a binary file
 
+// TODO: Properly Free Structures
+
 #include <stdio.h>
 #include <stdlib.h>
 

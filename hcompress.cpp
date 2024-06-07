@@ -3,7 +3,8 @@
 #include <vector>
 #include <queue>
 using namespace std;
-
+//TODO: What if getHuffcodes gets a single character with only one node?
+//TODO: Properly Free Structures
 
 class Character{
 public:
@@ -15,6 +16,8 @@ public:
   Character(int freq, char glyph){
     this->glyph = glyph;
     this->freq = freq;
+    this->left = NULL;
+    this->right = NULL;
   }
 
 };
@@ -56,7 +59,7 @@ priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freq
     if (freqs[i] != 0){
 
       // Add to the Priorty Queue
-      cout << i << ": " << (char) freqs[i] << " : " << heap.size() << endl;
+      // cout << i << ": " << (char) freqs[i] << " : " << heap.size() << endl;
       heap.emplace(freqs[i], i);
 
     }
@@ -72,6 +75,7 @@ priority_queue<Character, std::vector<Character>, compareChar>createPQ(int* freq
 Character* createHuffTree(priority_queue<Character, std::vector<Character>, compareChar> heap){
 
   // Trivial Sizes
+  cout << heap.size() << endl;
   if (heap.size() < 1) return NULL;
 
   if (heap.size() < 2) {
@@ -103,6 +107,54 @@ Character* createHuffTree(priority_queue<Character, std::vector<Character>, comp
   Character* result = new Character (heap.top());
   heap.pop();
   return result;
+
+}
+
+void getHuffcodes (Character* tree, char** codes, vector<char> path, int position){
+
+  // NULL Check
+  // cout << "abc123"<< endl;
+  if (tree == NULL) return;
+  // Check if Character Node
+  // cout << tree -> glyph << endl;
+  if(tree -> glyph != (char)0){
+
+    // cout << "At Character " << tree -> glyph;
+    // Create an array For Character path
+    codes[(int)tree -> glyph] = new char[1 + position * sizeof(char)];
+
+    // Write Path for Character
+    for (int i = 0; i < position; i++) codes[(int)tree -> glyph][i] = path.at(i);
+
+    // Null Character
+    codes[(int)tree -> glyph][position] = '\0';
+
+  }
+
+  // Generate Codes for Children and Update Path
+  path.push_back('0');
+  getHuffcodes(tree -> left, codes, path, position + 1);
+  path.pop_back();
+  path.push_back('1');
+  getHuffcodes(tree -> right, codes, path, position + 1);
+  path.pop_back();
+
+
+
+  // The matrix should be filled with all of the huffman codes
+  }
+
+// Prints Characters in Huffman Tree and their frequencies
+void printHuffFreqs(Character * tree){
+
+  if(tree == NULL) return;
+
+  // Print This Node
+  cout << tree -> glyph << " : " << tree -> freq ;
+
+  // Print Child Nodes
+  printHuffFreqs(tree -> left);
+  printHuffFreqs(tree -> right);
 
 }
 
@@ -147,12 +199,34 @@ int main(int argc, char *argv[]){
   // Create a Priority Queue
   std::priority_queue<Character, std::vector<Character>, compareChar> heap = createPQ(freq, aend);
 
-  cout << heap.size() << endl;
-  while (!heap.empty()) {
-    cout << heap.top().freq << " " << endl;
-    heap.pop();
-  }
+  // cout << heap.size() << endl;
+  // while (!heap.empty()) {
+    // cout << heap.top().freq << " " << endl;
+    // heap.pop();
+  // }
 
+  // Create Huffman Tree
+  Character* Tree = createHuffTree(heap);
+  printf("%p\n", Tree);
+
+  // Print Codes From Huffman Tree
+  //   Matrices for Huffman Codes
+  char** codes = new char*[aend];
+  vector<char> path = {};
+  std::fill(codes, codes + aend, (char*)NULL);
+
+  getHuffcodes(Tree, codes, path, 0);
+
+  //   Prints all the Huffman codes
+  for (int i = 0; i < aend; i++){
+
+      cout << (char)i << " : " << codes[i][0] << endl;
+    if (codes[i] != NULL){
+      cout << (char)i << " : " << codes[i][0] << endl;
+    }
+
+  }
+  // cout << "End of Porgram" << endl;
   // Compress Text
   // Write Text To File
   // Close All Files
