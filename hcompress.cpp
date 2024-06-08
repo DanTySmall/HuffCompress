@@ -3,10 +3,9 @@
 #include <vector>
 #include <queue>
 using namespace std;
-// TODO: What if getHuffcodes gets a single character with only one node?
-// TODO: Properly Free Structures
 // TODO: Make a more user friendly interface
 // TODO: What About LOOOONG Text
+// TODO: Properly Free Structures
 
 class Character{
 public:
