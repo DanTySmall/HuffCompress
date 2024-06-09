@@ -174,17 +174,34 @@ public:
 int main(int argc, char** argv) {
 
 
+  cout << "===> Welcome to Huffcompress <===" << endl;
+  cout << "=====> Extraction  Program <=====" << endl << endl;
+
   FILE* fp;
   if(argc < 2){
     fp = fopen("compressed.txt", "r");
+    cout << "No File Specified. Extracting compressed.txt " << endl;
+    cout << "Compressing File: compressed.txt" << endl << endl;
   } else {
-    fp = fopen(argv[0], "r");
+    fp = fopen(argv[1], "r");
+    cout << "Compressing File: " << argv[1] << endl << endl;
   }
 
   // Check if File Exists
   if (!fp){
-    printf("File not found :(");
+    cout << "File was not found. Exiting Extraction." << endl;
+    cout << "Specify file name after the command" << endl;
+    cout << "compressed.txt is selected by default" << endl << endl;
+    cout << "For Example: extract compressed.txt" << endl;
     return 1;
+  }
+
+  if (argc < 3){
+    cout << "No Destination File Specified. Saving to extracted.txt" << endl;
+    cout << "Saving to File: extracted.txt" << endl << endl;
+  } else {
+
+    cout << "Saving to File: " << argv[2] << endl << endl;
   }
 
   // Create Huffman Tree
@@ -202,9 +219,13 @@ int main(int argc, char** argv) {
   // Decompress Text
   tree.decompressText(fp,output);
 
-
-
-
+  // Done!
+  cout << endl << "Extraction Complete" << endl;
+  if(argc < 3){
+    cout << "Extracted File Saved As: extracted.txt" << endl;
+  }else {
+    cout << "Extracted File Saved As: " << argv[2] << endl;
+  }
 
   return 0;
 }

@@ -3,9 +3,6 @@
 #include <vector>
 #include <queue>
 using namespace std;
-// TODO: Make a more user friendly interface
-// TODO: What About LOOOONG Text
-// TODO: Properly Free Structures
 
 class Character{
 public:
@@ -212,13 +209,38 @@ public:
 
 int main(int argc, char *argv[]){
 
+  cout << "===> Welcome to Huffcompress <==="<< endl;
+  cout << "=====> Compression Program <=====" << endl << endl;
+
+
   // Read File
   FILE* fp;
   if (argc < 2){
     fp = fopen("text.txt", "r");
+    cout << "No Source File Specified. Compressing text.txt " << endl;
+    cout << "Compressing File: text.txt" << endl << endl;
   }else{
     fp = fopen(argv[1], "r");
+    cout << "Compressing File: " << argv[1] << endl << endl;
   }
+
+  if (argc < 3){
+    cout << "No Destination File Specified. Saving to compressed.txt" << endl;
+    cout << "Saving to File: compressed.txt" << endl << endl;
+  } else {
+
+    cout << "Saving to File: " << argv[2] << endl << endl;
+  }
+  // Stop Program if File can be found
+  if (!fp){
+    cout << "File was not found. Exiting Compression." << endl;
+    cout << "Specify file name after the command" << endl;
+    cout << "test.txt is selected by default" << endl << endl;
+    cout << "For Example: compress text.txt" << endl;
+    exit(1);
+  }
+
+
 
   // Create Array to Hold Character Frequencies
   int total = 0;
@@ -280,6 +302,10 @@ int main(int argc, char *argv[]){
 
   // Notify User of Completion
   cout << "Compression Complete!" << endl;
-
+  if(argc < 3){
+    cout << "Compressed File Saved As: compressed.txt" << endl;
+  }else {
+    cout << "Compressed File Saved As: " << argv[2] << endl;
+  }
   return 0;
 }
