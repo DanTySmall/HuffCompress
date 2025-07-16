@@ -33,7 +33,7 @@ public:
   if (c == 'X'){
     c = fgetc(fp);
     if(c == 'X') {
-      cout << "No Codes. Can Decompress :(" << endl;
+      cout << "No Codes. Can't Decompress :(" << endl;
       return NULL;
     } else{
       fputc(c,fp);
@@ -43,7 +43,7 @@ public:
 
 
   // Create Nodes for All Characters
-  while(1){
+  while(!feof(fp)){
 
    // STOP CHECK
     if (c == 'X'){
