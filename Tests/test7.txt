@@ -1,0 +1,51 @@
+employee_id,first_name,last_name,department,position,salary,age,years_experience,office_location,employee_code,performance_rating,project_count,certification_level,phone_extension,email_domain
+1001,John,Smith,Engineering,Software Engineer,75000,28,5,New York,ENG001,A,12,Senior,2845,company.com
+1002,Sarah,Johnson,Marketing,Marketing Manager,68000,32,8,Los Angeles,MKT045,B+,8,Expert,3021,company.com
+1003,Michael,Brown,Finance,Financial Analyst,62000,26,3,Chicago,FIN202,A-,6,Intermediate,2901,company.com
+1004,Emily,Davis,HR,HR Specialist,58000,29,6,Houston,HR087,B,4,Senior,3156,company.com
+1005,David,Wilson,Engineering,Senior Developer,85000,35,12,Seattle,ENG002,A+,15,Expert,2734,company.com
+1006,Jessica,Miller,Sales,Sales Representative,55000,24,2,Miami,SAL123,B-,3,Junior,3445,company.com
+1007,Christopher,Garcia,IT,System Administrator,70000,31,7,Boston,IT056,A,9,Senior,2998,company.com
+1008,Amanda,Rodriguez,Marketing,Content Creator,52000,25,3,Denver,MKT046,B+,5,Intermediate,3287,company.com
+1009,James,Martinez,Finance,Senior Accountant,72000,33,9,Phoenix,FIN203,A-,7,Senior,2823,company.com
+1010,Michelle,Anderson,Engineering,DevOps Engineer,78000,30,6,Austin,ENG003,A,11,Senior,2756,company.com
+1011,Robert,Thomas,Sales,Sales Manager,82000,38,14,Portland,SAL124,A+,18,Expert,3012,company.com
+1012,Lisa,Jackson,HR,Recruiter,59000,27,4,San Diego,HR088,B,6,Intermediate,3234,company.com
+1013,Kevin,White,IT,Network Engineer,73000,29,5,Atlanta,IT057,A-,8,Senior,2887,company.com
+1014,Rachel,Harris,Marketing,Digital Marketing Specialist,61000,26,4,Minneapolis,MKT047,B+,7,Intermediate,3378,company.com
+1015,Brian,Martin,Finance,Budget Analyst,65000,32,7,Nashville,FIN204,A,5,Senior,2945,company.com
+1016,Nicole,Thompson,Engineering,QA Engineer,68000,28,5,Tampa,ENG004,B+,9,Intermediate,2812,company.com
+1017,Ryan,Garcia,Sales,Account Executive,64000,30,6,Orlando,SAL125,A-,10,Senior,3456,company.com
+1018,Stephanie,Lee,HR,Benefits Coordinator,56000,25,3,Kansas City,HR089,B,4,Intermediate,3189,company.com
+1019,Daniel,Clark,IT,Database Administrator,76000,34,10,Cleveland,IT058,A,12,Expert,2923,company.com
+1020,Lauren,Lewis,Marketing,Brand Manager,69000,31,8,Detroit,MKT048,A-,9,Senior,3345,company.com
+1021,Matthew,Walker,Engineering,Full Stack Developer,81000,29,7,San Francisco,ENG005,A+,13,Senior,2867,company.com
+1022,Ashley,Hall,Finance,Tax Specialist,63000,27,4,Las Vegas,FIN205,B+,5,Intermediate,2978,company.com
+1023,Andrew,Allen,Sales,Regional Sales Director,95000,42,16,Dallas,SAL126,A+,22,Expert,3123,company.com
+1024,Megan,Young,IT,Security Analyst,74000,28,5,San Antonio,IT059,A,8,Senior,2834,company.com
+1025,Joshua,Hernandez,HR,Training Coordinator,57000,26,3,Columbus,HR090,B,3,Intermediate,3267,company.com
+1026,Rebecca,King,Engineering,Mobile Developer,79000,30,6,Charlotte,ENG006,A-,10,Senior,2891,company.com
+1027,Tyler,Wright,Marketing,SEO Specialist,58000,25,3,Indianapolis,MKT049,B+,4,Intermediate,3412,company.com
+1028,Samantha,Lopez,Finance,Investment Analyst,71000,29,6,Seattle,FIN206,A,6,Senior,2956,company.com
+1029,Justin,Hill,Sales,Inside Sales Rep,51000,23,1,Memphis,SAL127,B-,2,Junior,3489,company.com
+1030,Brittany,Scott,IT,Help Desk Technician,48000,24,2,Louisville,IT060,B,3,Junior,2798,company.com
+1031,Nathan,Green,Engineering,Data Scientist,88000,32,8,San Jose,ENG007,A+,14,Expert,2745,company.com
+1032,Crystal,Adams,HR,Payroll Specialist,54000,28,5,Oklahoma City,HR091,B,4,Intermediate,3198,company.com
+1033,Brandon,Baker,Marketing,Product Marketing Manager,75000,33,9,Milwaukee,MKT050,A,11,Senior,3356,company.com
+1034,Vanessa,Gonzalez,Finance,Credit Analyst,60000,26,3,Albuquerque,FIN207,B+,4,Intermediate,2967,company.com
+1035,Jeremy,Nelson,Sales,Territory Manager,72000,34,10,Tucson,SAL128,A-,15,Senior,3434,company.com
+1036,Kimberly,Carter,IT,Cloud Engineer,82000,31,7,Fresno,IT061,A,12,Senior,2823,company.com
+1037,Scott,Mitchell,Engineering,Backend Developer,77000,29,6,Sacramento,ENG008,A-,9,Senior,2876,company.com
+1038,Heather,Perez,HR,Employee Relations Specialist,61000,30,7,Long Beach,HR092,B+,6,Senior,3245,company.com
+1039,Aaron,Roberts,Marketing,Marketing Analyst,56000,25,3,Mesa,MKT051,B,5,Intermediate,3387,company.com
+1040,Monica,Turner,Finance,Financial Planner,69000,32,8,Virginia Beach,FIN208,A,7,Senior,2934,company.com
+1041,Eric,Phillips,Sales,Key Account Manager,78000,36,12,Atlanta,SAL129,A+,19,Expert,3145,company.com
+1042,Tiffany,Campbell,IT,Software Tester,52000,24,2,Colorado Springs,IT062,B,3,Junior,2887,company.com
+1043,Adam,Parker,Engineering,Systems Engineer,84000,33,9,Omaha,ENG009,A,13,Senior,2798,company.com
+1044,Julie,Evans,HR,Compensation Analyst,64000,29,6,Raleigh,HR093,A-,5,Senior,3256,company.com
+1045,Sean,Edwards,Marketing,Social Media Manager,53000,24,2,Miami,MKT052,B+,4,Intermediate,3423,company.com
+1046,Angela,Collins,Finance,Audit Manager,81000,35,11,Tampa,FIN209,A+,16,Expert,2945,company.com
+1047,Gregory,Stewart,Sales,Business Development Rep,58000,26,4,New Orleans,SAL130,B,7,Intermediate,3467,company.com
+1048,Melissa,Sanchez,IT,DevOps Specialist,75000,28,5,Honolulu,IT063,A-,8,Senior,2812,company.com
+1049,Jonathan,Morris,Engineering,AI Engineer,92000,31,7,San Francisco,ENG010,A+,11,Expert,2734,company.com
+1050,Christina,Rogers,HR,Organizational Development Specialist,66000,30,6,Portland,HR094,A,8,Senior,3278,company.com
