@@ -19,4 +19,8 @@ all: compress decompress
 clean:
 	rm -f compress decompress
 
+debug:
+	make clean
+	g++ -g hcompress.cpp -o compress
+	g++ -g hdecom.cpp -o decompress
 # end

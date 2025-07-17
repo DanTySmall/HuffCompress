@@ -178,7 +178,7 @@ int main(int argc, char** argv) {
   if(argc < 2){
     fp = fopen("compressed.txt", "r");
   } else {
-    fp = fopen(argv[0], "r");
+    fp = fopen(argv[1], "r");
   }
 
   // Check if File Exists

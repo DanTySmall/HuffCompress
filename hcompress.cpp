@@ -220,6 +220,11 @@ int main(int argc, char *argv[]){
     fp = fopen(argv[1], "r");
   }
 
+  if (!fp){
+    cout << "Error Opening File" << endl;
+    exit(1);
+  }
+
   // Create Array to Hold Character Frequencies
   int total = 0;
   int aend = 1 << 8;
