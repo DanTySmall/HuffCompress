@@ -145,7 +145,8 @@ public:
 
     // Print Compressed Text to File
     char c = getc(input);
-    while(c != EOF){
+    while(!feof(input)){
+      cout << (int)c << endl;
       fprintf(output, "%s", codes[(int)c]);
       c = getc(input);
     }
@@ -176,6 +177,10 @@ int main(int argc, char *argv[]){
   cout << "Printing File Contents\n";
   char c = getc(fp);
   while(c != EOF){
+    if (c < 0 || c > 127){
+      cout << endl << "ASCII Files Only!!" << endl;
+      exit(1);
+    }
     cout << c;
     if (c != '\0'){
       freq[(int)c]++;
