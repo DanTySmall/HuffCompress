@@ -36,11 +36,13 @@ for file in test*.txt; do
     # Generate Diffs of Input and Output
     if diff "$file" "extracted$file"; then
         echo "Test Passed!"
+        rm "compressed$file" "extracted$file"
         ((passed++))
     else
         if [ $nonascii -eq 1 ]; then
             echo "File Not Generated"
             echo "Test Passed!"
+            rm "compressed$file" "extracted$file"
             ((passed++))
         else
             echo "Test Failed"
