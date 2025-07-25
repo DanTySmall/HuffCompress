@@ -53,6 +53,7 @@ public:
   }
 };
 
+namespace Compress{
 class HuffmanTree {
 public:
   int aend = (1 << 8);
@@ -155,6 +156,7 @@ public:
     fclose(output);
   }
 };
+}
 
 int main(int argc, char *argv[]){
   FILE* fp;
@@ -193,7 +195,7 @@ int main(int argc, char *argv[]){
 
   Heap PQ = Heap(freq, aend);
   priority_queue<Character, std::vector<Character>, compareChar> heap = PQ.getHeap();
-  HuffmanTree tree = HuffmanTree(heap);
+  Compress::HuffmanTree tree = Compress::HuffmanTree(heap);
 
   tree.printHuffcodes();
 
