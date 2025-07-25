@@ -28,7 +28,7 @@ jobs:
       run: |
         cd Tests  # Assuming your test files are in a tests directory
         chmod +x testall.sh
-        Tests/testall.sh | tee test_output.log
+        testall.sh | tee test_output.log
 
         # Extract test results for GitHub Actions summary
         passed=$(grep "The program passed" test_output.log | grep -o '[0-9]* / [0-9]*')
