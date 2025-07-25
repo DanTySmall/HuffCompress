@@ -2,55 +2,39 @@ name: Huffman Compression Tests
 
 on:
   push:
-    branches: [ master, GithubActions ]
+    branches: [master, GithubActions]
   pull_request:
-    branches: [ master, GithubActions ]
+    branches: [master, GithubActions]
 
 jobs:
   test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        compiler: [g++, clang++]
-        exclude:
-          - os: macos-latest
-            compiler: g++  # Use default compiler on macOS
-    
-    runs-on: ${{ matrix.os }}
-    
+    runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
-    - name: Install build dependencies (Ubuntu)
-      if: matrix.os == 'ubuntu-latest'
+
+    - name: Install build dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential g++ clang make
-        
-    - name: Install build dependencies (macOS)
-      if: matrix.os == 'macos-latest'
-      run: |
-        # Xcode command line tools should already be available
-        echo "Using default macOS compiler"
-    
+        sudo apt-get install -y build-essential g++ make
+
     - name: Build project
       run: |
-        export CXX=${{ matrix.compiler }}
         make clean
         make all
-    
+
     - name: Run tests
       run: |
         cd tests  # Assuming your test files are in a tests directory
         chmod +x testall.sh
         ./testall.sh | tee test_output.log
-        
+
         # Extract test results for GitHub Actions summary
         passed=$(grep "The program passed" test_output.log | grep -o '[0-9]* / [0-9]*')
         echo "## Test Results" >> $GITHUB_STEP_SUMMARY
         echo "Tests passed: $passed" >> $GITHUB_STEP_SUMMARY
-    
+
     - name: Upload test artifacts on failure
       if: failure()
       uses: actions/upload-artifact@v4
